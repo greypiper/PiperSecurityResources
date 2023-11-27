@@ -1,6 +1,6 @@
 # PiperSecurityResources
 
-                                                                                  
+![Project List Wiki](https://github.com/greypiper/PiperSecurityResources/wiki/Projects-List)                                                                                 
 
 The Goal of this repo is to provide a selection of my research and educational content I have generated over the last few years. Unfortuantely, most of what I want to share would need to be thoroughly sanitized before disseminatation -- leaving only shells of what I intended the pieces to be. 
 
