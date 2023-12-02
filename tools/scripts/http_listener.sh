@@ -1,3 +1,5 @@
+#!/bin/bash
+
 LOG_FILE="http_requests.log"
 
 # Ensure the log file exists or create a new one
@@ -11,8 +13,11 @@ log_request() {
 
 # Start an infinite loop to listen for incoming requests
 while true; do
-    # Listen on port 8080 and log incoming data
-    request=$(cat)
-    echo -e "HTTP/1.1 200 OK\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
-    log_request "$request"
-done | nc -l -p 8080 -c
+    # Use a subshell to handle each connection separately
+    (
+        # Listen on port 8080 and log incoming data
+        request=$(cat)
+        echo -e "HTTP/1.1 200 OK\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
+        log_request "$request"
+    ) | nc -l -p 8080 -c
+done
