@@ -19,5 +19,5 @@ while true; do
         request=$(cat)
         echo -e "HTTP/1.1 200 OK\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
         log_request "$request"
-    ) | nc -l -p 8080 -c
+    ) | nc -l -p 8080 -q 1
 done
