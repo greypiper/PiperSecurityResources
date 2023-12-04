@@ -3,7 +3,7 @@
 # Copyright 2022, Active Countermeasures
 # Written by Bill Stearns bill@activecountermeasures.com
 # Released under GPL 3.0 License
-# Version 0.1
+# Version 0.2
 
 # Sets up a simple listening TCP or UDP port suitable for accepting connections from beacon-simulator.sh
 
@@ -45,6 +45,8 @@ elif [ "$2" = "tcp" -o "$2" = "TCP" -o "$2" = '' ]; then
 else
     Usage
 fi
+
+trap 'echo -e "\nExiting..." && exit 0' INT
 
 while : ; do
     echo "Starting listener on $listen_proto port $listen_port. Waiting for connections..."
