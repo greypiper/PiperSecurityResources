@@ -1,3 +1,8 @@
+# This is a script that was taken and modified from https://github.com/activecm/threat-tools/ to add a b64 encoding to the result.
+# I do not take any credit for this please support activecm they rock and make our lives easier
+# Additional modifications will ensure to randomize encoding
+
+
 import socket
 import time
 import random
