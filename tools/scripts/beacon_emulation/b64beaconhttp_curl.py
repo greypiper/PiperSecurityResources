@@ -26,7 +26,8 @@ jitter = random.randint(interval - variance, interval + variance)
 
 def send_curl_request(url):
     try:
-        subprocess.run(['curl', '-X', 'GET', '-H', 'Connection: close', '--max-time', '5', url], check=True, timeout=10)
+        # Add the Firefox User-Agent to the curl command
+        subprocess.run(['curl', '-X', 'GET', '-H', 'Connection: close', '-H', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0', '--max-time', '5', url], check=True, timeout=10)
     except subprocess.CalledProcessError as e:
         print(f"Error sending request: {e}")
     except subprocess.TimeoutExpired:
