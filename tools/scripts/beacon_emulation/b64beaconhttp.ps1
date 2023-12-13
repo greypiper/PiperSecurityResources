@@ -11,14 +11,19 @@ param(
 $data = "a"
 $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
-function Send-Curl-Request {
-    param(
+function Send-HttpRequest {
+    param (
         [string]$url
     )
 
     try {
-        # Add the Firefox User-Agent to the curl command
-        Start-Process 'curl' -ArgumentList @('-X', 'GET', '-H', 'Connection: close', '-H', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0', '--max-time', '5', $url) -Wait -ErrorAction Stop
+        # Add the Firefox User-Agent to the headers
+        $headers = @{
+            'User-Agent' = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0'
+        }
+
+        # Send HTTP request using Invoke-RestMethod
+        Invoke-RestMethod -Uri $url -Headers $headers -Method Get
     } catch {
         Write-Host "Error sending request: $_"
     }
@@ -40,8 +45,8 @@ function Tcp-Beacon {
         Write-Host "Amount of jitter: $jitter"
         Write-Host "HTTP Request sent: $url"
 
-        # Use curl to send the HTTP request
-        Send-Curl-Request $url
+        # Use Invoke-RestMethod to send the HTTP request
+        Send-HttpRequest $url
 
         $count++
         Write-Host "Number of beacons sent: $count"
@@ -54,15 +59,14 @@ function Udp-Beacon {
     while ($true) {
         $messageSize = Get-Random -Minimum 0 -Maximum $max_payload
         $message = -join ($data * $messageSize)
-        $messageBytes = [System.Text.Encoding]::UTF8.GetBytes($message)
 
         $jitter = Get-Random -Minimum ($interval - $jitter) -Maximum ($interval + $jitter)
         Write-Host "Amount of jitter: $jitter"
         Write-Host "Data sent: $message"
 
-        # Use curl to send the UDP request
+        # Use Invoke-RestMethod to send the UDP request
         $url = "http://$ip`:$port"
-        Send-Curl-Request $url
+        Send-HttpRequest $url
 
         $count++
         Write-Host "Number of beacons sent: $count"
@@ -75,5 +79,4 @@ if ($tcp) {
 } elseif ($udp) {
     Udp-Beacon
 } else {
-    Tcp-Beacon
-}
+    Tcp-B
