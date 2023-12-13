@@ -22,8 +22,11 @@ function Send-HttpRequest {
             'User-Agent' = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0'
         }
 
-        # Send HTTP request using Invoke-RestMethod
-        Invoke-RestMethod -Uri $url -Headers $headers -Method Get
+        # Set the timeout for connection wait
+        $timeout = 10
+
+        # Send HTTP request using Invoke-RestMethod with timeout
+        Invoke-RestMethod -Uri $url -Headers $headers -Method Get -TimeoutSec $timeout
     } catch {
         Write-Host "Error sending request: $_"
     }
@@ -45,7 +48,7 @@ function Tcp-Beacon {
         Write-Host "Amount of jitter: $jitter"
         Write-Host "HTTP Request sent: $url"
 
-        # Use Invoke-RestMethod to send the HTTP request
+        # Use Invoke-RestMethod to send the HTTP request with timeout
         Send-HttpRequest $url
 
         $count++
@@ -64,7 +67,7 @@ function Udp-Beacon {
         Write-Host "Amount of jitter: $jitter"
         Write-Host "Data sent: $message"
 
-        # Use Invoke-RestMethod to send the UDP request
+        # Use Invoke-RestMethod to send the UDP request with timeout
         $url = "http://$ip`:$port"
         Send-HttpRequest $url
 
