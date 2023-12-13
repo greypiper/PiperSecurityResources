@@ -32,6 +32,16 @@ function Send-HttpRequest {
     }
 }
 
+function Get-Jitter {
+    param (
+        [int]$baseValue,
+        [int]$variance
+    )
+
+    $jitter = Get-Random -Minimum 0 -Maximum ($variance * 2 + 1)
+    return $baseValue - $variance + $jitter
+}
+
 function Tcp-Beacon {
     $count = 0
     while ($true) {
@@ -44,7 +54,7 @@ function Tcp-Beacon {
         # Build an HTTP request with the encoded data in the query parameters
         $url = "http://$ip`:$port/test?data=$([System.Web.HttpUtility]::UrlEncode($encodedMessage))"
 
-        $jitter = Get-Random -Minimum ($interval - $jitter) -Maximum ($interval + $jitter)
+        $jitter = Get-Jitter -baseValue $interval -variance $jitter
         Write-Host "Amount of jitter: $jitter"
         Write-Host "HTTP Request sent: $url"
 
@@ -63,7 +73,7 @@ function Udp-Beacon {
         $messageSize = Get-Random -Minimum 0 -Maximum $max_payload
         $message = -join ($data * $messageSize)
 
-        $jitter = Get-Random -Minimum ($interval - $jitter) -Maximum ($interval + $jitter)
+        $jitter = Get-Jitter -baseValue $interval -variance $jitter
         Write-Host "Amount of jitter: $jitter"
         Write-Host "Data sent: $message"
 
