@@ -79,4 +79,5 @@ if ($tcp) {
 } elseif ($udp) {
     Udp-Beacon
 } else {
-    Tcp-B
+    Tcp-Beacon
+}
