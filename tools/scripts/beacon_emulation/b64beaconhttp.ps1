@@ -39,7 +39,7 @@ function Get-Jitter {
     )
 
     $jitter = Get-Random -Minimum 0 -Maximum ($variance * 2 + 1)
-    return $baseValue - $variance + $jitter
+    return [math]::Max($baseValue - $variance + $jitter, 0)
 }
 
 function Tcp-Beacon {
