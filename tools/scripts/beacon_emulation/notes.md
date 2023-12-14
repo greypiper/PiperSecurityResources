@@ -1,3 +1,2 @@
-| stats dc(c_ip) as distinct_c_ips by date_bucket, cs_host
-| where distinct_c_ips = 1
-| table date_bucket, cs_host, c_ip
+| stats values(cs_host) as cs_host by time c_ip total_connections anomaly_score
+| where mvcount(cs_host) = 1
