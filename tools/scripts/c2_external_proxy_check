@@ -10,7 +10,13 @@ function Measure-ConnectionTime {
 
     $startTime = Get-Date
     try {
-        $null = Test-NetConnection -ComputerName $URL -InformationLevel Quiet
+        $uri = New-Object System.Uri($URL)
+        $port = $uri.Port
+        if ($port -eq -1) {
+            $port = 80  # Default to port 80 if no port is specified in the URL
+        }
+
+        $null = Test-NetConnection -ComputerName $uri.Host -Port $port
         $endTime = Get-Date
         $elapsedTime = ($endTime - $startTime).TotalMilliseconds
         Write-Output "Time taken to connect to $URL: $($elapsedTime)ms"
