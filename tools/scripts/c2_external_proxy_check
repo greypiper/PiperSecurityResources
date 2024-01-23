@@ -11,10 +11,7 @@ function Measure-ConnectionTime {
     $startTime = Get-Date
     try {
         $uri = New-Object System.Uri($URL)
-        $port = $uri.Port
-        if ($port -eq -1) {
-            $port = 80  # Default to port 80 if no port is specified in the URL
-        }
+        $port = if ($uri.Port -eq -1) { 80 } else { $uri.Port }
 
         $null = Test-NetConnection -ComputerName $uri.Host -Port $port
         $endTime = Get-Date
