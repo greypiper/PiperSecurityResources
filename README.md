@@ -1,3 +1,10 @@
+
+
+***
+[MOST RECENT POST](https://github.com/greypiper/PiperSecurityResources/wiki/Intro-to-EDR-Underpinnings:-Part-1)
+***
+
+
 # PiperSecurityResources
 
 ![Project List Wiki](https://github.com/greypiper/PiperSecurityResources/wiki/Projects-List)                                                                                 
